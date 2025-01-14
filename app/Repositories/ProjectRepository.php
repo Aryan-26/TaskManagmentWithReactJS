@@ -34,25 +34,29 @@ class ProjectRepository extends BaseRepository
             ->paginate(5);
     }
 
+    public function getProjectsByClient($clientId)
+{
+    return $this->newQuery()->
+      where('client_id',$clientId)->limit(3)
+      ->get();
+}
+   
+    
+
+
     public function getAllProjectsWithRelations()
     {
-        return Project::with(['createdBy', 'updatedBy', 'assignedUser'])->get();
+        return $this->newQuery()
+                    ->with(['createdBy', 'updatedBy', 'assignedUser','client'])->get();
     }
 
-    public function getCreatedByUsers()
+    
+    public function getAssignedUsers($projectId)
     {
-        return User::where('role', 'creator')->get(); // Example logic
+        return $this->model->find($projectId)->assignedUsers;
     }
 
-    public function getUpdatedByUsers()
-    {
-        return User::where('role', 'updater')->get(); // Example logic
-    }
-
-    public function getAssignedUsers()
-    {
-        return User::where('role', 'assigned')->get(); // Example logic
-    }
+   
    
 
 }

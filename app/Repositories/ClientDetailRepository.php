@@ -11,4 +11,5 @@ class ClientDetailRepository extends BaseRepository{
     {
         parent::__construct($model);    
     }
+    
 }

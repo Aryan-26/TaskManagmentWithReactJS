@@ -11,8 +11,21 @@ class TaskRepository extends BaseRepository{
     parent::__construct($model);
   } 
 
-  function getTasksByEmployee($id)
-    {
+
+  public function getTasksByClient($clientId)
+{
+    // Assuming tasks are related to projects, and projects have a client_id
+    return $this->newQuery()
+        ->whereHas('project', function ($query) use ($clientId) {
+            $query->where('client_id', $clientId);
+        })
+        ->get();
+}
+
+  
+  
+     function getTasksByEmployee($id)
+{
         return $this->newQuery()
             ->where('assigned_to', $id)
             ->get();
@@ -30,7 +43,7 @@ class TaskRepository extends BaseRepository{
             ->paginate(5);
     }
 
-    public function getAllProjectsWithRelations()
+    public function getTasksWithRelations()
     {
         return $this->newQuery()->with(['createdBy','project','updatedBy', 'assignedUser'])->get();
     }

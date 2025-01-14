@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 class ClientDetail extends Model
 {
@@ -10,7 +11,7 @@ class ClientDetail extends Model
     protected $guarded = [];
     protected $table = 'client_details';
     
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -22,7 +23,7 @@ class ClientDetail extends Model
     }
 
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class,'user_id');
     }

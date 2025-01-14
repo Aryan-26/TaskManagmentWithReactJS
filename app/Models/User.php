@@ -5,6 +5,10 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -29,21 +33,12 @@ class User extends Authenticatable
         'updated_by'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -53,7 +48,7 @@ class User extends Authenticatable
         ];
     }
 
-   // User.php model
+
    public function hasRole(string $role): bool
    {
        return $this->role ===  $role;
@@ -61,7 +56,7 @@ class User extends Authenticatable
   
    
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -72,54 +67,54 @@ class User extends Authenticatable
         });
     }
 
-    public function projects()
+    public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class, 'project_employees', 'user_id', 'project_id');
     }
-    public function assignedTasks()
+    public function assignedTasks(): HasMany
     {
         return $this->hasMany(Task::class, 'assigned_to');
     }
 
-    public function createdTask()
+    public function createdTask(): HasOne
     {
         return $this->hasOne(Task::class, 'created_by');
     }
 
-    public function updatedTask()
+    public function updatedTask(): HasMany
     {
         return $this->hasMany(Task::class, 'updated_by');
     }
-    public function taskProject()
+    public function taskProject(): BelongsTo
     {
         return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public function clientProjects()
+    public function clientProjects(): HasMany
     {
         return $this->hasMany(Project::class, 'client_id');
     }
 
-    public function createdProjects()
+    public function createdProjects(): HasMany
     {
         return $this->hasMany(Project::class, 'created_by');
     }
 
-    public function updatedProjects()
+    public function updatedProjects(): HasMany
     {
         return $this->hasMany(Project::class, 'updated_by');
     }
 
-    public function createdBy()
+    public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updatedBy()
+    public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    public function clientDetail()
+    public function clientDetail(): HasOne
     {
         return $this->hasOne(ClientDetail::class, 'user_id', 'id');
     }

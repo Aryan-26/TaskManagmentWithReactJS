@@ -16,7 +16,7 @@ use Illuminate\View\View;
 use Inertia\Inertia;
 use Throwable;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     protected UserRepository $userRepository;
 
@@ -39,8 +39,9 @@ class UserController extends Controller
     public function show(User $user)
     {
 
+        $states = UserRole::options();
         $user = $this->userRepository->getById($user->id);
-        return Inertia::render('User/Show', compact('user'));
+        return Inertia::render('User/Show', compact('states','user'));
     }
 
     public function create()
@@ -48,10 +49,9 @@ class UserController extends Controller
         $states = UserRole::options();
         return Inertia::render('User/Create',compact('states'));
     }
-
+    
     public function store(StoreUserRequest $request)
     {
-    //    dd("hjvuiv");
         DB::beginTransaction();
         try {
             $this->userRepository->store($request->getInsertableFields());
@@ -62,13 +62,14 @@ class UserController extends Controller
             return redirect()->route('users.create')->with('error', $e->getMessage());
         }
     }
-
+    
     public function edit(User $user)
     {
+        $states = UserRole::options();
         $user = $this->userRepository->getById($user->id);
-        return Inertia::render('User/Edit', compact('user'));
+        return Inertia::render('User/Edit', compact('states','user'));
     }
-
+    
     public function update(UpdateUserRequest $request,User $user)
     {
         // dd('eguguig');
@@ -76,10 +77,12 @@ class UserController extends Controller
         try {
             $this->userRepository->update($user->id, $request->getUpdateableFields());
             DB::commit();
-            return redirect()->route('users.index')->with('success', 'User Updated Successfully');
+            // return redirect()->route('users.index')->with('success', 'User Updated Successfully');
+            return $this->sendRedirectResponse(route('users.index','User Updated Successfully'));
         } catch (Throwable $e) {
             DB::rollBack();
             return redirect()->route('users.edit', $user->id)->with('error', $e->getMessage());
+         
         }
     }
 

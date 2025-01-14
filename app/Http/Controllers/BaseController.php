@@ -16,9 +16,6 @@ abstract class BaseController extends Controller
             ]);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function sendRedirectBackResponse(string $message = '')
     {
         return Redirect::back()
@@ -37,9 +34,7 @@ abstract class BaseController extends Controller
             ]);
     }
 
-    /**
-     * @return RedirectResponse
-     */
+   
     public function sendRedirectBackError(string $message = '')
     {
         return Redirect::back()

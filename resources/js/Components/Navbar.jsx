@@ -79,12 +79,12 @@ console.log(user.role + `/dashboard`);
             {user.role === 'client' && (
               <>
               
-                <Link
+                {/* <Link
                   href="/tasks"
                   className="text-gray-700 font-medium hover:text-indigo-600 transition"
                 >
                   Tasks
-                </Link>
+                </Link> */}
 
               <Link
                 href="/projects"

@@ -35,7 +35,7 @@ class AdminController extends BaseController
         $recentTasks = $this->taskRepository->getRecentTasks(5);
         $recentClients = $this->userRepository->getRecentUsersByRole('client', 5);
         $recentEmployees = $this->userRepository->getRecentUsersByRole('employee', 5);
-// dd($recentProjects);
+// dd($recentEmployees);
         return Inertia::render('Admin/Dashboard', compact(
             'projectCount',
             'taskCount',
