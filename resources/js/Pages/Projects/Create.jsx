@@ -6,8 +6,13 @@ import ReactSelect from "@/Components/ReactSelect"; // Import your custom ReactS
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
+import InputError from "@/Components/InputError";
+import moment from "moment";
 // import TextInput from '@/Components/TextInput'
 // import InputLabel from "@/Components/InputLabel";
+
+
+
 
 const Create = () => {
     const { props } = usePage();
@@ -24,9 +29,23 @@ const Create = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(data);
+
+
+        
+         const formattedStartDate = data.start_date ? moment(data.start_date).format('DD-MM-YYYY') : '';
+         const formattedEndDate = data.end_date ? moment(data.end_date).format('DD-MM-YYYY') : '';
+ 
+         const updatedData = {
+             ...data,
+             start_date: formattedStartDate,
+             end_date: formattedEndDate,
+         };
+ 
+         console.log(updatedData); 
+ 
         post(route("projects.store"), data);
     };
-// console.log(data);    // Options mapping for employees
+// console.log(data);    
     const employeeOptions = employees.map((employee) => ({
         value: employee.id,
         label: employee.name,
@@ -66,7 +85,6 @@ const Create = () => {
                                         className={`block w-full p-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${errors.name ? "border-red-500" : "border-gray-300"}`}
                                     />
                                         <InputError message={errors.name} />
-                                    {/* {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name}</p>} */}
                                 </div>
 
                                 <div className="mb-6">
@@ -81,7 +99,6 @@ const Create = () => {
                                         className={`block w-full p-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${errors.description ? "border-red-500" : "border-gray-300"}`}
                                     />
                                     <InputError message={errors.description} />
-                                    {/* {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description}</p>} */}
                                 </div>
 
                                 <div className="mb-6">
@@ -101,7 +118,6 @@ const Create = () => {
                                         ))}
                                     </select>
                                 <InputError message={errors.client_id} />
-                                    {/* {errors.client_id && <p className="mt-2 text-sm text-red-600">{errors.client_id}</p>} */}
                                 </div>
 
                                 <div className="mb-6">
@@ -116,7 +132,6 @@ const Create = () => {
                                     />
                                 
                                         <InputError message={errors.employee_ids} />
-                                    {/* {errors.employee_ids && <p className="mt-2 text-sm text-red-600">{errors.employee_ids}</p>} */}
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 mb-6">

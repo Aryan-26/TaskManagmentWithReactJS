@@ -14,7 +14,6 @@ class TaskRepository extends BaseRepository{
 
   public function getTasksByClient($clientId)
 {
-    // Assuming tasks are related to projects, and projects have a client_id
     return $this->newQuery()
         ->whereHas('project', function ($query) use ($clientId) {
             $query->where('client_id', $clientId);

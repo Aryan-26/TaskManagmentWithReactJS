@@ -34,14 +34,14 @@ class TaskController extends BaseController
 
 
 
-    public function index()
+    public function index(Task $task)
     {
         $user =  $this->userRepository->getAuthenticatedUser();
-        $tasks = $this->taskrepository->getTasksWithRelations(); 
+        $tasks = $this->taskrepository->getAll(['createdBy','project','updatedBy', 'assignedUser']); 
         $projects = $this->projectRepository->getAllProjectsWithRelations();
         $createdBy = $this->userRepository->getCreatedByUsers();
         $updatedBy = $this->userRepository->getUpdatedByUsers();
-        $assignedUser = $this->userRepository->getAssignedUsers();
+        $assignedUser = $this->userRepository->getAssignedUsersByTask($task);
         
         return Inertia::render('Tasks/Index', compact('user','tasks', 'projects', 'createdBy', 'updatedBy', 'assignedUser'));
     }
@@ -53,7 +53,7 @@ class TaskController extends BaseController
         $project = $this->taskrepository->getTasksWithRelations();
         $createdBy = $this->userRepository->getCreatedByUsers();
         $updatedBy = $this->userRepository->getUpdatedByUsers();
-        $assignedUser = $this->userRepository->getAssignedUsers();
+        $assignedUser = $this->userRepository->getAssignedUsersByTask($task);
 
         $task = $this->taskrepository->getById($task->id, ['createdBy', 'project', 'updatedBy', 'assignedUser']);
         return Inertia::render('Tasks/Show', compact('task', 'project', 'createdBy', 'updatedBy', 'assignedUser'));
@@ -73,12 +73,13 @@ class TaskController extends BaseController
         try {
             $this->taskrepository->store($request->getInsertableFields());
             DB::commit();
-            return redirect(route('tasks.index'))->with('success', 'Task Added Succesfully');
+            return $this->sendRedirectResponse(route('tasks.index'), 'Task Added Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
-            return redirect()->route('tasks.create')->with('error', $e->getMessage());
+            return $this->sendRedirectBackError($e->getMessage());
         }
     }
+    
     public function edit(Task $task)
     {
         $status = StatusEnum::options();

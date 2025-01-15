@@ -12,37 +12,13 @@ class UserRepository extends BaseRepository
         parent::__construct($model);
     }
 
-
-    // public function getAllClients()
-    // {
-    //     return $this->newQuery()
-    //         ->where('role', 'client')
-    //         ->get();
-    // }
-
-   
-    // public function getAllEmployee()
-    // {
-    //     return $this->newQuery()
-    //     ->where('role', 'employee')
-    //     ->get(['id', 'name', 'email', 'role']);
-    // }
-
-    public function getAllByRole(string $role, array $columns = ['*'])
+    public function getAllByRole(string $role, array $columns = ['*'],array $relations = [])
 {
     return $this->newQuery()
         ->where('role', $role)
+        ->with(['clientDetail'])
         ->get($columns);
-}
-
-
-    public function count(): int
-    {
-        return $this->newQuery()->count();
-    }
-
-    
-    
+}   
     public function countByRole(string $role): int
     {
         return $this->newQuery()
@@ -50,6 +26,7 @@ class UserRepository extends BaseRepository
         ->count();
     }
     
+   
     public function getRecentUsersByRole(string $role, int $limit)
     {
         return $this->newQuery()
@@ -61,17 +38,31 @@ class UserRepository extends BaseRepository
     
     public function getCreatedByUsers()
     {
-        return $this->newQuery()->where('role', 'creator')->get(); 
+        return $this->newQuery()->with(['createdProjects'])->get();
     }
     public function getUpdatedByUsers()
     {
-        return $this->newQuery()->where('role', 'updater')->get(); 
+        return $this->newQuery()->with(['updatedProjects'])->get();
     }
-
-    public function getAssignedUsers()
+   
+    public function getAssignedUsersByProject($projectId)
     {
-        return $this->newQuery()->where('role', 'assigned')->get(); 
+        return $this->newQuery()
+            ->whereHas('projects', function ($query) use ($projectId) {
+                $query->where('project_id', $projectId);
+            })
+            ->get(['id', 'name', 'email']);
     }
+   
+    public function getAssignedUsersByTask($taskId)
+{
+    return $this->newQuery()
+        ->whereHas('assignedTasks', function ($query) use ($taskId) {
+            $query->where('id', $taskId);
+        })
+        ->get(['id', 'name', 'email']);
+}
+
 
     public function getAuthenticatedUser()
     {

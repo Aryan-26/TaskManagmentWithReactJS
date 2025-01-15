@@ -44,13 +44,12 @@ function Create() {
         });
     };
 
-    // Display flash messages
     useEffect(() => {
         if (success) {
-            alert(success); // Replace with a more styled notification if needed
+            alert(success);
         }
         if (error) {
-            alert(error); // Replace with a more styled notification if needed
+            alert(error); 
         }
     }, [success, error]);
 
@@ -80,9 +79,7 @@ function Create() {
                                         className={`mt-1 block w-full border ${errors.name ? "border-red-500" : "border-gray-300"} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
                                     />
  <InputError message={errors.name} />
-                                    {/* {errors.name && (
-                                        <div className="text-sm text-red-500 mt-2">{errors.name}</div>
-                                        )} */}
+                                   
                                 </div>
 
                                 <div className="mb-4">
@@ -98,9 +95,7 @@ function Create() {
                                         className={`mt-1 block w-full border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
                                     />
                                         <InputError message={errors.email} />
-                                    {/* {errors.email && (
-                                      <div className="text-sm text-red-500 mt-2">{errors.email}</div>
-                                    )} */}
+                                    
                                 </div>
 
                                 {userRole === "admin" && (
@@ -119,9 +114,7 @@ function Create() {
                                             }`}
                                         />
                                             <InputError message={errors.role} />
-                                        {/* {errors.role && (
-                                          <div className="text-sm text-red-500 mt-2">{errors.role}</div>
-                                        )} */}
+                                        
                                     </div>
                                 )}
 
@@ -138,9 +131,7 @@ function Create() {
                                         className={`mt-1 block w-full border ${errors.password ? "border-red-500" : "border-gray-300"} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
                                     />
                                         <InputError message={errors.password} />
-                                    {/* {errors.password && (
-                                      <div className="text-sm text-red-500 mt-2">{errors.password}</div>
-                                    )} */}
+                                    
                                 </div>
 
                                 <div className="mb-4">
@@ -156,9 +147,7 @@ function Create() {
                                         className={`mt-1 block w-full border ${errors.password_confirmation ? "border-red-500" : "border-gray-300"} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
                                     />
                                       <InputError message={errors.password_confirmation} />
-                                    {/* {errors.password_confirmation && (
-                                        <div className="text-sm text-red-500 mt-2">{errors.password_confirmation}</div>
-                                    )} */}
+                                   
                                 </div>
 
                             </div>

@@ -6,6 +6,7 @@ import Footer from '@/Components/Footer';
 const ClientDashboard = ({ clientDetails, projects, projectsCount, tasksCount, tasks }) => {
   return (
     <>
+    
       <Navbar />
       <div className="container mx-auto p-6 pt-20 bg-gray-50 min-h-screen">
         {/* Header Section */}

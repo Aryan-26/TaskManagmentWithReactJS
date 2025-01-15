@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Throwable;
@@ -27,13 +28,21 @@ class ProjectController extends BaseController
     public function index(Project $project)
     {
         $user = $this->userRepository->getAll();
-        $projects = $this->projectRepository->getAllProjectsWithRelations();
+        
+       
+        if (Auth::user()->role === 'employee') {
+            $projects = $this->projectRepository->getProjectsByEmployee(Auth::user()->id);
+        } elseif (Auth::user()->role === 'client') {
+            $projects = $this->projectRepository->getProjectsByClient(Auth::user()->id);
+            
+        } else {
+            $projects = $this->projectRepository->getAllProjectsWithRelations();
+        }
         $createdBy = $this->userRepository->getCreatedByUsers();
         $updatedBy = $this->userRepository->getUpdatedByUsers();
-        // $assignedUser = $this->userRepository->getAssignedUsers();
-        
+       
         $assignedUser = $project->load(['assignedUser']);
-        // dd($assignedUser);
+  
         
         return Inertia::render('Projects/Index', compact('user', 'projects', 'createdBy', 'updatedBy', 'assignedUser'));
     }
@@ -68,14 +77,14 @@ class ProjectController extends BaseController
 
         DB::commit();
 
-        return redirect()->route('projects.index')->with('success', 'Project created successfully.');
+        return $this->sendRedirectResponse(route('projects.index'),'Project created successfully.');
     } catch (Throwable $e) {
         DB::rollBack();
-
-       
+        
+        
         Log::error('Error storing project: ' . $e->getMessage());
-
-        return redirect()->route('projects.create')->with('error', 'Failed to create the project.');
+        
+        return redirect(route('projects.create'))->with('error', $e->getMessage());
     }
 }
 
@@ -109,11 +118,10 @@ class ProjectController extends BaseController
             }
     
             DB::commit();
-            return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
-            // $this->sendRedirectResponse(route('projects.index'),'Project updated successfully.');
+            return $this->sendRedirectResponse(route('projects.index'),'Project updated successfully.');
         } catch (Throwable $e) {
             DB::rollBack();
-            return redirect()->route('projects.index')->with('error', $e->getMessage());
+            return $this->sendRedirectResponse(route('projects.index'),$e->getMessage());
         }
     }
     

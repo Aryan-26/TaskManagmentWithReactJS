@@ -12,6 +12,7 @@ use App\Repositories\TaskRepository;
 use App\Repositories\ProjectRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class EmployeeController extends BaseController
@@ -31,16 +32,18 @@ class EmployeeController extends BaseController
     
     public function index(Request $request){
 
-       
+       $user = $this->userRepository->getAuthenticatedUser();
        $employeeId = $request->user()->id;
 
        
        $tasks = $this->taskRepository->getTasksByEmployee($employeeId);
+       $tasksCount = $tasks->count();
 
        
-       $projects = $this->projectRepository->getProjectsByUser($employeeId);
+       $projects = $this->projectRepository->getProjectsByEmployee(Auth::id());
+       $projectsCount = $projects->count();
 
-       return Inertia::render('Employee/Dashboard', compact('tasks', 'projects'));
+       return Inertia::render('Employee/Dashboard', compact('tasksCount','projectsCount','user','tasks', 'projects'));
     }
   
 }

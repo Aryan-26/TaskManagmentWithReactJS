@@ -6,6 +6,8 @@ import ReactSelect from "@/Components/ReactSelect";
 import axios from "axios";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 const CreateTask = ({users, projects, status }) => {
     const { data, setData, errors, post } = useForm({
@@ -82,7 +84,6 @@ const CreateTask = ({users, projects, status }) => {
                                     placeholder="Enter task name"
                                 />
                             <InputError message={errors.name} />
-                                {/* {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name}</p>} */}
                             </div>
                             <div>
                                 <InputLabel htmlFor="description" className="block text-sm font-medium text-gray-700">Description</InputLabel>
@@ -96,7 +97,6 @@ const CreateTask = ({users, projects, status }) => {
                                     placeholder="Enter task description"
                                 />
                                 <InputError message={errors.description} />
-                                {/* {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description}</p>} */}
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,6 @@ const CreateTask = ({users, projects, status }) => {
                                     className={`mt-2 block w-full ${errors.status ? 'border-red-500' : 'border-gray-300'} focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                                 />
                                 <InputError message={errors.status} />
-                                {/* {errors.status && <p className="mt-2 text-sm text-red-600">{errors.status}</p>} */}
                             </div>
 
                             <div>
@@ -133,10 +132,8 @@ const CreateTask = ({users, projects, status }) => {
                                     ))}
                                 </select>
                                 <InputError message={errors.project_id} />
-                                {/* {errors.project_id && <p className="mt-2 text-sm text-red-600">{errors.project_id}</p>} */}
                             </div>
 
-                            {/* Assigned To */}
                             <div>
                                 <InputLabel htmlFor="assigned_to" className="block text-sm font-medium text-gray-700">Assigned To</InputLabel>
                                 <ReactSelect
@@ -151,10 +148,8 @@ const CreateTask = ({users, projects, status }) => {
                                     isClearable
                                 />
                                 <InputError message={errors.assigned_to} />
-                                {/* {errors.assigned_to && <p className="text-red-500 text-sm mt-1">{errors.assigned_to}</p>} */}
                             </div>
 
-                            {/* Start Date */}
                             <div>
                                 <InputLabel htmlFor="start_date" className="block text-sm font-medium text-gray-700">Start Date</InputLabel>
                                 <input
@@ -166,10 +161,8 @@ const CreateTask = ({users, projects, status }) => {
                                     className={`mt-2 block w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.start_date ? 'border-red-500' : 'border-gray-300'}`}
                                 />
                                 <InputError message={errors.start_date} />
-                                {/* {errors.start_date && <p className="mt-2 text-sm text-red-600">{errors.start_date}</p>} */}
                             </div>
 
-                            {/* End Date */}
                             <div>
                                 <InputLabel htmlFor="end_date" className="block text-sm font-medium text-gray-700">End Date</InputLabel>
                                 <input
@@ -181,19 +174,24 @@ const CreateTask = ({users, projects, status }) => {
                                     className={`mt-2 block w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.end_date ? 'border-red-500' : 'border-gray-300'}`}
                                 />
                                 <InputError message={errors.end_date} />
-                                {/* {errors.end_date && <p className="mt-2 text-sm text-red-600">{errors.end_date}</p>} */}
                             </div>
                         </div>
                     </div>
 
-                    {/* Submit Button */}
                     <div className="mt-6">
-    <button 
+    {/* <button 
         type="submit" 
         className="w-full px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-300"
     >
         Create Task
-    </button>
+    </button> */}
+ <PrimaryButton
+            type="submit"
+            className="px-6 py-3 flex justify-center w-full bg-blue-500 text-white font-medium rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+            Create Task
+        </PrimaryButton>
+
 </div>
                     <div className="flex justify-end mt-6">
     <a 

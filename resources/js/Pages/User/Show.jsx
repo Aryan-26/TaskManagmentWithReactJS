@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 
-const UserDetails = ({ user, success, error }) => {
+const UserDetails = ({  user, success, error }) => {
   return (
     <>
     <Navbar/>

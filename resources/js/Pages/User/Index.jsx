@@ -1,23 +1,24 @@
 import Footer from "@/Components/Footer";
 import Navbar from "@/Components/Navbar";
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { Link } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-const Index = ({ users, successMessage, errorMessage,flash, validationErrors }) => {
+const Index = ({ users, error,flash }) => {
 console.log(flash);
 
-  React.useEffect(() => {
+const [message, setMessage] = useState(flash);
+useEffect(() => {
+  console.log(flash.message);
+  
+  if (message) {
     const timer = setTimeout(() => {
-      ["success-message", "error-message", "validation-errors"].forEach((id) => {
-        const element = document.getElementById(id);
-        if (element) element.style.display = "none";
-      });
+      setMessage(null);
     }, 5000);
-
     return () => clearTimeout(timer);
-  }, []);
+  }
+}, [message]);
  
   const handleDelete = (userId) => { 
     const confirmDelete = window.confirm("Are you sure? This will delete the user.");
@@ -33,46 +34,20 @@ console.log(flash);
       <main className="pt-[100px] px-6 bg-gray-50 min-h-screen">
         <div className="max-w-10xl mx-auto space-y-6">
          
-          {successMessage && (
-            <div
-              id="success-message"
-              className="flex items-center justify-between bg-teal-100 text-teal-700 px-4 py-3 rounded-md shadow-md"
-            >
-              <span>{successMessage}</span>
-              <button
-                onClick={() => (document.getElementById("success-message").style.display = "none")}
-                className="font-bold"
-              >
-                ×
-              </button>
-            </div>
-          )}
-          {errorMessage && (
-            <div
-              id="error-message"
-              className="flex items-center justify-between bg-red-100 text-red-700 px-4 py-3 rounded-md shadow-md"
-            >
-              <span>{errorMessage}</span>
-              <button
-                onClick={() => (document.getElementById("error-message").style.display = "none")}
-                className="font-bold"
-              >
-                ×
-              </button>
-            </div>
-          )}
-          {validationErrors?.length > 0 && (
-            <div
-              id="validation-errors"
-              className="bg-red-100 text-red-700 px-4 py-3 rounded-md shadow-md"
-            >
-              <ul className="list-disc pl-5 space-y-1">
-                {validationErrors.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+        {message && flash.message && (
+                <div className="mb-4">
+                  <div
+                    id="alert-message"
+                    className={`p-4 rounded-md shadow-md ${
+                      flash.message.status === "success"
+                        ? "bg-green-500 text-white"
+                        : "bg-red-500 text-white"
+                    }`}
+                  >
+                    {flash.message.description}
+                  </div>
+                </div>
+              )}
 
         
           <div className="flex items-center justify-between">

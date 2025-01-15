@@ -13,12 +13,21 @@ class ProjectRepository extends BaseRepository
       $this->model = $model;
   }
 
-  function getProjectsByEmployee($id)
+  function getAssignedProjectsByEmployee($id)
     {
         return $this->newQuery()
             ->where('assigned_to', $id)
             ->get();
     }
+public function getProjectsByEmployee($employeeId)
+{
+    return $this->newQuery()
+        ->whereHas('users', function ($query) use ($employeeId) {
+            $query->where('user_id', $employeeId);
+        })
+        ->get();
+}
+
 
     public function count(): int
     {

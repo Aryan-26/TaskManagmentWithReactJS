@@ -32,18 +32,18 @@ class ClientController extends BaseController
     }
     
     
-    public function index()
+    public function index(ClientDetail $clientDetail)
     {   
         
         $clients=$this->userRepository->getAllByRole('client');
-        $clientDetails = $this->clientDetailRepository->getAll();
-        return Inertia::render('Client/Index' , compact('clients','clientDetails'));
+
+
+        return Inertia::render('Client/Index' , compact('clients'));
     }
     
     //hjgjg
     public function create()
     {
-        $clientDetails = $this->userRepository->getAllByRole('client');
         return Inertia::render('User/Partials/Create', compact('clientDetails'));
     }
     
@@ -60,48 +60,22 @@ class ClientController extends BaseController
            
         } catch (Throwable $e) {
             DB::rollBack();
-            return redirect()->route('clientDetails.create')->with('error', $e->getMessage());
+            return redirect()->route('client-details.create')->with('error', $e->getMessage());
         }
     }
     
     
-//     public function show(ClientDetail $client)
-//     {   
-//         // $clients=$this->userRepository->getAllByRole('client');
-//         $clientDetails = $this->clientDetailRepository->getById($client->getKey());
-//  // Assuming the client is authenticated
-// //  $client = $this->userRepository->getAllByRole('client',['id','name','role']);
-//     $projects = $this->projectRepository->getProjectsByUser($client->id);
-//     // dd($projects);
-//     return Inertia::render('Client/Dashboard', compact('projects'));
-//         // return Inertia::render('Client/Dashboard', compact('clients','clientDetails'));
-//     }
 
-// public function show(ClientDetail $clientDetail)
-// {   
-  
-//     // $clientDetails = $this->clientDetailRepository->getById(Auth::id());    
-//     $project = $this->projectRepository->getProjectsByClient(Auth::id());
-//     $projects = $this->projectRepository->getProjectsByClient(Auth::id());
-//     $projectsCount = $this->projectRepository->getProjectsByClient(Auth::id())->count();
-//     $tasksCount = $this->taskRepository->getTasksByClient(Auth::id())->count();
-//     $tasks = $this->taskRepository->getTasksByClient(Auth::id());
-//     $tasks = $this->taskRepository->getTasksByClient(Auth::id());
-//     // dd($tasks);
-//     return Inertia::render('Client/Dashboard', compact('tasksCount','tasks','projectsCount','projects'));
-// }
 
 
 public function show()
 {
-    // Fetch the authenticated user's ID
     $projects = $this->projectRepository->getProjectsByClient(Auth::id());
     $projectsCount = $projects->count();
     
     $tasks = $this->taskRepository->getTasksByClient(Auth::id());
     $tasksCount = $tasks->count();
 
-    // Render the Inertia view with the necessary data
     return Inertia::render('Client/Dashboard', compact('tasksCount', 'tasks', 'projectsCount', 'projects'));
 }
 

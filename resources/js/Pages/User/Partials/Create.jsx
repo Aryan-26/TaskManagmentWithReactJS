@@ -25,7 +25,7 @@ function AddClient({errors}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("clientDetails.store"));
+        post(route("client-details.store"));
     };
 
     return (

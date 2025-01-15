@@ -7,16 +7,21 @@ import ReactSelect from "@/Components/ReactSelect"; // Import your ReactSelect c
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
-
+import moment from "moment";
 const EditProject = ({ project, clients, employees, onUpdate }) => {
 
   const formatDate = (dateString) => {
-    return dateString ? dateString.split('T')[0] : '';  // Format date to 'YYYY-MM-DD'
+    return dateString ? moment(dateString, 'YYYY-MM-DDTHH:mm:ssZ').format('YYYY-MM-DD') : '';  // Explicitly define the input format
   };
+  // const formatDate = (dateString) => {
+  //   return dateString ? dateString.split('T')[0] : '';  // Format date to 'YYYY-MM-DD'
+  // };
+
+  // const formatDate = (dateString) => {
+  //   return dateString ? moment(dateString).format("DD-MM-YYYY") : ""; // Format to DD-MM-YYYY
+  // };
   console.log(usePage().props)
-  // console.log(project)
-  // Prepopulate form data from the project prop
-  // console.log(client);
+  
   const [formData, setFormData] = useState({
     name: project?.name || "",
     description: project?.description || "",
@@ -87,7 +92,6 @@ console.log(project);
                   onChange={handleChange}
                   
                 />
-                {/* {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name[0]}</p>} */}
               </div>
 
               <div>
@@ -103,7 +107,6 @@ console.log(project);
                   value={formData.description}
                   onChange={handleChange}
                 />
-                {/* {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description[0]}</p>} */}
               </div>
 
             
@@ -128,7 +131,6 @@ console.log(project);
                     </option>
                   ))}
                 </select>
-                {/* {errors.client_id && <p className="text-red-500 text-sm mt-1">{errors.client_id[0]}</p>} */}
               </div>
 
               
@@ -152,7 +154,6 @@ console.log(project);
                   placeholder="Select employees"
                   isClearable
                 />
-                {/* {errors.employee_ids && <p className="text-red-500 text-sm mt-1">{errors.employee_ids[0]}</p>} */}
               </div>
 
             
@@ -169,7 +170,6 @@ console.log(project);
                     value={formData.start_date}
                     onChange={handleDateChange}
                   />
-                  {/* {errors.start_date && <p className="text-red-500 text-sm mt-1">{errors.start_date[0]}</p>} */}
                 </div>
 
                 <div>
@@ -184,7 +184,6 @@ console.log(project);
                     value={formData.end_date}
                     onChange={handleDateChange}
                   />
-                  {/* {errors.end_date && <p className="text-red-500 text-sm mt-1">{errors.end_date[0]}</p>} */}
                 </div>
               </div>
 

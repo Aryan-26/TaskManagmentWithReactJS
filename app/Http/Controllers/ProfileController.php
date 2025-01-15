@@ -14,7 +14,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
 
-class ProfileController extends Controller
+class ProfileController extends BaseController
 {
     protected UserRepository $userRepository;
 

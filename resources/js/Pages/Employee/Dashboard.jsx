@@ -1,9 +1,9 @@
+// EmployeeDashboard.jsx
 import React from 'react';
-import { Link } from '@inertiajs/inertia-react'; // Assuming you're using Inertia.js with React
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 
-const EmployeeDashboard = ({ tasks, projects, user }) => {
+const EmployeeDashboard = ({ tasks, projects, user, tasksCount, projectsCount }) => {
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -25,22 +25,19 @@ const EmployeeDashboard = ({ tasks, projects, user }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-100 to-blue-200">
-    
       <Navbar />
 
-    
       <div className="flex-1 container mx-auto pt-20 px-6 py-12">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-          Welcome, {user?.name}
+        <h1 className="text-5xl font-extrabold text-gray-900 mb-6 text-center leading-tight tracking-tight">
+          Welcome, {user.name}
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-2xl font-semibold text-gray-700 border-b pb-4 mb-6">
-              Your Tasks
+              Your Tasks ({tasksCount})
             </h2>
-            {tasks.length > 0 ? (
+            {tasks.length > 0? (
               <ul>
                 {tasks.map((task) => (
                   <li
@@ -48,14 +45,11 @@ const EmployeeDashboard = ({ tasks, projects, user }) => {
                     className="flex justify-between items-center mb-4 pb-3 border-b last:border-b-0"
                   >
                     <div>
-                      <Link
-                        href={route('tasks.show', task.id)}
-                        className="text-lg text-blue-600 hover:underline font-medium"
-                      >
+                      <p className="text-lg text-blue-600 hover:underline font-medium">
                         {task.name}
-                      </Link>
+                      </p>
                       <p className="text-sm text-gray-600">
-                        Due: {formatDate(task.due_date)}
+                        End Date : {formatDate(task.end_date)}
                       </p>
                     </div>
                     <span
@@ -73,12 +67,11 @@ const EmployeeDashboard = ({ tasks, projects, user }) => {
             )}
           </div>
 
-          
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-2xl font-semibold text-gray-700 border-b pb-4 mb-6">
-              Your Projects
+              Your Projects ({projectsCount})
             </h2>
-            {projects.length > 0 ? (
+            {projects.length > 0? (
               <ul>
                 {projects.map((project) => (
                   <li
@@ -101,7 +94,6 @@ const EmployeeDashboard = ({ tasks, projects, user }) => {
         </div>
       </div>
 
-     
       <Footer />
     </div>
   );

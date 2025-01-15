@@ -75,7 +75,6 @@ function Edit() {
                   className={`mt-1 block w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                 />
                  <InputError message={errors.name} />
-                {/* {errors.name && <div className="text-sm text-red-500 mt-2">{errors.name}</div>} */}
               </div>
 
               <div className="mb-4">
@@ -89,7 +88,6 @@ function Edit() {
                   className={`mt-1 block w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                 />
                  <InputError message={errors.email} />
-                {errors.email && <div className="text-sm text-red-500 mt-2">{errors.email}</div>}
               </div>
 
               <div className="mb-4">
@@ -106,7 +104,6 @@ function Edit() {
                   ))}
                 </select>
                   <InputError message={errors.role} />
-                {errors.role && <div className="text-sm text-red-500 mt-2">{errors.role}</div>}
               </div>
             </div>
 

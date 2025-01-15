@@ -30,16 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('client-details', ClientDetailsController::class)->names([
-        'index' => 'clientDetails.index',
-        'create' => 'clientDetails.create',
-        'store' => 'clientDetails.store',
-        'show' => 'clientDetails.show',
-        'edit' => 'clientDetails.edit',
-        'update' => 'clientDetails.update',
-        'destroy' => 'clientDetails.destroy',
-    ]);
-    Route::post('client-details', [ClientDetailsController::class, 'store'])->name('clientDetails.store');
+    Route::resource('client-details', ClientDetailsController::class)->except('show');
+    Route::get('client-details/{id}',[ClientDetailsController::class,'show'])->name('client-details.show');
+    Route::post('client-details', [ClientDetailsController::class, 'store'])->name('client-details.store');
 });
 
 Route::resource('users', UserController::class);
